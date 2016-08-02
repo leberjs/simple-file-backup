@@ -1,0 +1,29 @@
+{
+  "name": "@leberjs/simple-file-backup",
+  "version": "0.0.1",
+  "description": "Environment agnostic simple file backup",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --reporter spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leberjs/simple-file-backup.git"
+  },
+  "keywords": [
+    "backup"
+  ],
+  "author": "leberjs <leberjs@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/leberjs/simple-file-backup/issues"
+  },
+  "homepage": "https://github.com/leberjs/simple-file-backup#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.0.0"
+  },
+  "dependencies": {
+    "date-utils": "^1.2.21"
+  }
+}
