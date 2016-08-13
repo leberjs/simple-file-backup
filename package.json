@@ -4,8 +4,7 @@
   "description": "Environment agnostic simple file backup",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --reporter spec",
-    "doit": "node ./test/moreTest.js"
+    "test": "mocha --reporter spec"
   },
   "repository": {
     "type": "git",
