@@ -13,6 +13,8 @@ function getExtension(extensionOptions) {
   } else if (extensionOptions === 'datetime') {
     var dt = new Date();
     return dot.concat(dt.toFormat('YYYYMMDDHH24MISS'))
+  } else if (extensionOptions === 'pure') {
+    return ''
   } else if (typeof extensionOptions === 'string') {
     extensionOptions = extensionOptions.replace('.', '')
     return dot.concat(extensionOptions)
@@ -23,41 +25,33 @@ var defaultOptions = {
   extension: 'date'
 }
 
-module.exports = function (source, target, options, cb) {
-  if (!cb) {
-    cb = options
-    options = {}
-  }
-
-  var called = false
-
+module.exports = function (source, target, options) {
   options = Object.assign({}, defaultOptions, options)
 
   var extension = getExtension(options.extension)
   target = path.format({
-    dir: path.dirname(target),
-    base: path.basename(target) + extension
+    dir: target,
+    base: path.basename(source) + extension
   })
 
-  var rd = fs.createReadStream(source)
-  rd.on('error', function (err) {
-    done(err)
-  })
+  var p = new Promise(
+    function (resolve, reject) {
+      var rd = fs.createReadStream(source)
+      rd.on('error', function (err) {
+        reject(err)
+      })
 
-  var wr = fs.createWriteStream(target)
-  wr.on('error', function (err) {
-    done(err)
-  })
-  wr.on('close', function () {
-    done();
-  })
+      var wr = fs.createWriteStream(target)
+      wr.on('error', function (err) {
+        reject(err)
+      })
+      wr.on('close', function () {
+        resolve()
+      })
 
-  rd.pipe(wr);
-
-  function done (err) {
-    if (!called) {
-      cb(err)
-      called = true
+      rd.pipe(wr);
     }
-  }
+  )
+
+  return p
 }
